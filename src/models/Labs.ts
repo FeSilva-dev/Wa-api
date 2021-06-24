@@ -1,6 +1,14 @@
 import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
 import { v4 as uuid} from 'uuid'
 
+type Address = {
+  street: string;
+  number: number;
+  city: string;
+  state: string;
+  zip: string;
+}
+
 @Entity("labs")
 class Labs{
 
@@ -10,8 +18,8 @@ class Labs{
   @Column()
   name: string;
 
-  @Column()
-  address: object;
+  @Column("simple-json")
+  address: Address | null;
 
   @Column()
   isActive: boolean;

@@ -18,7 +18,7 @@ export class Lab1624487250594 implements MigrationInterface {
                     },
                     {
                         name: "address",
-                        type: "object"
+                        type: "varchar"
                     },
                     {
                         name: "isActive",
