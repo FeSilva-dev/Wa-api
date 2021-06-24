@@ -8,26 +8,41 @@ class LabsController {
 
     const labsRepository = getRepository(Labs);
 
-    const labAlreadyExists = await labsRepository.findOne({
-      name
-    });
-
-    if(labAlreadyExists){
-      return response.status(400).json({
-        error: "Lab already exists!"
+    try{
+      const labAlreadyExists = await labsRepository.findOne({
+        name
       });
+  
+      if(labAlreadyExists){
+        return response.status(400).json({
+          error: "Lab already exists!"
+        });
+      }
+  
+      const labs = labsRepository.create({
+        name,
+        address,
+        isActive
+      });
+  
+      await labsRepository.save(labs);
+  
+      return response.status(201).json(labs);
+    }catch{
+      return response.status(400).json({error: "Error when trying to register a new lab!"})
     }
+  }
 
-    const labs = labsRepository.create({
-      name,
-      address,
-      isActive
-    });
+  async show(request: Request, response: Response){
+    const labsRepository = getRepository(Labs);
 
-    await labsRepository.save(labs);
+    try{
+      const all = await labsRepository.find()
 
-    return response.status(201).json(labs);
-
+      return response.status(200).json(all)
+    }catch{
+      return response.status(400).json({error: "Failed to get all labs!"})
+    }
   }
 }
 
