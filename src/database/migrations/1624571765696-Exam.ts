@@ -1,23 +1,27 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class Lab1624487250594 implements MigrationInterface {
+export class Exam1624571765696 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: "labs",
+                name: "exams",
                 columns: [
                     {
-                        name: 'id',
+                        name: "id",
                         type: "uuid",
                         isPrimary: true
+                    },
+                    {
+                        name: "lab_id",
+                        type: "uuid"
                     },
                     {
                         name: "name",
                         type: "varchar"
                     },
                     {
-                        name: "address",
+                        name: "type",
                         type: "varchar"
                     },
                     {
@@ -29,13 +33,23 @@ export class Lab1624487250594 implements MigrationInterface {
                         type: "timestamp",
                         default: "now()"
                     }
+                ],
+                foreignKeys: [
+                    {
+                        name: "FKLabs",
+                        referencedTableName: "labs",
+                        referencedColumnNames: ["id"],
+                        columnNames: ["lab_id"],
+                        onDelete: "CASCADE",
+                        onUpdate: "CASCADE"
+                    }
                 ]
             })
         );
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("labs");
+        await queryRunner.dropTable("exams");
     }
 
 }

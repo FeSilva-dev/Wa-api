@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryColumn, OneToMany, JoinColumn, ManyToOne } from "typeorm";
 import { v4 as uuid} from 'uuid'
+import { Exam } from "./Exam";
 
 type Address = {
   street: string;
@@ -26,6 +27,10 @@ class Labs{
 
   @CreateDateColumn()
   created_at: Date;
+
+  @OneToMany(() => Exam, exam => exam.name)
+  @JoinColumn({name: 'lab_id'})
+  exams: Exam;
 
   constructor(){
     if(!this.id){
