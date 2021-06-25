@@ -15,12 +15,9 @@ class ExamContrller {
         name,
         type,
         isActive,
-        lab_id: labsId
       });
 
       await examRepository.save(exam);
-
-      // const examUsingFind = await examRepository.find({where: {id: exam.id}})
 
       return response.status(201).json(exam);
     }catch{
@@ -50,6 +47,20 @@ class ExamContrller {
       return response.status(200).json(examSingle);
     }catch{
       return response.status(400).json({error: "Failed to get exam!"});
+    }
+  }
+
+  async delete(request: Request, response: Response){
+    const {id} = request.params;
+    const examRepository = getRepository(Exam);
+
+    try{
+      await examRepository.delete({id});
+
+      return response.status(200).json({message: "Successfull"});
+
+    }catch{
+      return response.status(400).json({erro: "Failed do delete this exam!"});
     }
   }
 }

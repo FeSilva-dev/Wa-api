@@ -4,7 +4,7 @@ import { Labs } from "../models/Labs";
 
 class LabsController {
   async create(request: Request, response: Response){
-    const {name, address, isActive} = request.body;
+    const {name, address, isActive, exameId} = request.body;
 
     const labsRepository = getRepository(Labs);
 
@@ -22,7 +22,8 @@ class LabsController {
       const labs = labsRepository.create({
         name,
         address,
-        isActive
+        isActive,
+        exam_id: exameId
       });
   
       await labsRepository.save(labs);
@@ -36,13 +37,10 @@ class LabsController {
   async show(request: Request, response: Response){
     const labsRepository = getRepository(Labs);
 
-    try{
       const all = await labsRepository.find()
 
       return response.status(200).json(all)
-    }catch{
-      return response.status(400).json({error: "Failed to get all labs!"})
-    }
+      // return response.status(400).json({error: "Failed to get all labs!"})
   }
 
   async showOne(request: Request, response: Response){
@@ -55,6 +53,20 @@ class LabsController {
       return response.status(200).json(examSingle);
     }catch{
       return response.status(400).json({error: "Failed to get a lab!"});
+    }
+  }
+
+  async delete(request: Request, response: Response){
+    const {id} = request.params;
+    const labsRepository = getRepository(Labs);
+
+    try{
+      await labsRepository.delete({id});
+
+      return response.status(200).json({message: "Successfull"});
+
+    }catch{
+      return response.status(400).json({erro: "Failed do delete this lab!"});
     }
   }
 }

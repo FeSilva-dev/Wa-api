@@ -23,12 +23,11 @@ class Exam{
   @PrimaryColumn()
   readonly id: string;
 
-  @Column()
-  lab_id: string;
+  @OneToMany(() => Labs, lab => lab.id)
+  labs: Labs[];
 
-  @ManyToOne(() => Labs, lab => lab.name, {eager: true})
-  @JoinColumn({name: "lab_id"})
-  labs: Labs;
+  // @ManyToOne(() => Labs, lab => lab.id, {eager: true})
+  // labs: Labs;
 
   @Column()
   name: string;

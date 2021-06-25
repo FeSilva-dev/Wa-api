@@ -17,6 +17,9 @@ class Labs{
   readonly id: string;
 
   @Column()
+  exam_id: string;
+
+  @Column()
   name: string;
 
   @Column("simple-json")
@@ -28,8 +31,8 @@ class Labs{
   @CreateDateColumn()
   created_at: Date;
 
-  @OneToMany(() => Exam, exam => exam.name)
-  @JoinColumn({name: 'lab_id'})
+  @ManyToOne(() => Exam, exam => exam.id)
+  @JoinColumn({name: 'exam_id'})
   exams: Exam;
 
   constructor(){

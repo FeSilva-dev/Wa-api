@@ -13,6 +13,11 @@ export class Lab1624487250594 implements MigrationInterface {
                         isPrimary: true
                     },
                     {
+                        name: "exam_id",
+                        type: "uuid",
+                        isNullable: true
+                    },
+                    {
                         name: "name",
                         type: "varchar"
                     },
@@ -28,6 +33,16 @@ export class Lab1624487250594 implements MigrationInterface {
                         name: "created_at",
                         type: "timestamp",
                         default: "now()"
+                    }
+                ],
+                foreignKeys: [
+                    {
+                        name: "FKExams",
+                        referencedTableName: "exams",
+                        referencedColumnNames: ["id"],
+                        columnNames: ["exam_id"],
+                        onDelete: "CASCADE",
+                        onUpdate: "CASCADE"
                     }
                 ]
             })
