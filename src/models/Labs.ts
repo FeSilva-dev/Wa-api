@@ -1,5 +1,12 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn, OneToMany, JoinColumn, ManyToOne } from "typeorm";
-import { v4 as uuid} from 'uuid'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryColumn,
+  JoinColumn,
+  ManyToOne,
+} from "typeorm";
+import { v4 as uuid } from "uuid";
 import { Exam } from "./Exam";
 
 type Address = {
@@ -8,16 +15,12 @@ type Address = {
   city: string;
   state: string;
   zip: string;
-}
+};
 
 @Entity("labs")
-class Labs{
-
+class Labs {
   @PrimaryColumn()
   readonly id: string;
-
-  @Column()
-  exam_id: string;
 
   @Column()
   name: string;
@@ -31,15 +34,18 @@ class Labs{
   @CreateDateColumn()
   created_at: Date;
 
-  @ManyToOne(() => Exam, exam => exam.id)
-  @JoinColumn({name: 'exam_id'})
+  @Column()
+  exam_id: string;
+
+  @ManyToOne(() => Exam, (exam) => exam.labs)
+  @JoinColumn({ name: "exam_id" })
   exams: Exam;
 
-  constructor(){
-    if(!this.id){
+  constructor() {
+    if (!this.id) {
       this.id = uuid();
     }
   }
 }
 
-export {Labs}
+export { Labs };

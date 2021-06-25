@@ -3,34 +3,35 @@ import { getRepository } from "typeorm";
 import { Labs } from "../models/Labs";
 
 class LabsController {
-  async create(request: Request, response: Response){
-    const {name, address, isActive, exameId} = request.body;
+  async create(request: Request, response: Response) {
+    const { name, address, isActive, exameId } = request.body;
 
     const labsRepository = getRepository(Labs);
-
-    try{
+    try {
       const labAlreadyExists = await labsRepository.findOne({
-        name
+        name,
       });
-  
-      if(labAlreadyExists){
+
+      if (labAlreadyExists) {
         return response.status(400).json({
-          error: "Lab already exists!"
+          error: "Lab already exists!",
         });
       }
-  
+
       const labs = labsRepository.create({
         name,
         address,
         isActive,
-        exam_id: exameId
+        exam_id: exameId,
       });
-  
+
       await labsRepository.save(labs);
-  
+
       return response.status(201).json(labs);
-    }catch{
-      return response.status(400).json({error: "Error when trying to register a new lab!"})
+    } catch {
+      return response
+        .status(400)
+        .json({ error: "Error when trying to register a new lab!" });
     }
   }
 

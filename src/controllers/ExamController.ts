@@ -3,12 +3,12 @@ import { getRepository } from "typeorm";
 import { Exam } from "../models/Exam";
 
 class ExamContrller {
-  async create(request: Request, response: Response){ 
-    const {name, type, isActive, labsId} = request.body;
+  async create(request: Request, response: Response) {
+    const { name, type, isActive, labsId } = request.body;
 
     const examRepository = getRepository(Exam);
 
-    try{
+    try {
       const exam = examRepository.create({
         name,
         type,
@@ -17,9 +17,13 @@ class ExamContrller {
 
       await examRepository.save(exam);
 
+      // const examUsingFind = await examRepository.find({where: {id: exam.id}})
+
       return response.status(201).json(exam);
-    }catch{
-      return response.status(400).json({error: "Error when trying to register a new exam! "});
+    } catch {
+      return response
+        .status(400)
+        .json({ error: "Error when trying to register a new exam! " });
     }
   }
 
@@ -80,7 +84,7 @@ class ExamContrller {
       return response.status(200).json(updated)
 
     }catch{
-      return response.status(400).json({error: "Failed update this exam!"});
+      return response.status(400).json({error: "Failed update this lab!"});
     }
   }
 }
