@@ -1,14 +1,12 @@
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { Exam } from "../models/Exam";
-import { Labs } from "../models/Labs";
 
 class ExamContrller {
   async create(request: Request, response: Response){ 
     const {name, type, isActive, labsId} = request.body;
 
     const examRepository = getRepository(Exam);
-    const labsRepository = getRepository(Labs)
 
     try{
       const exam = examRepository.create({
@@ -61,6 +59,28 @@ class ExamContrller {
 
     }catch{
       return response.status(400).json({erro: "Failed do delete this exam!"});
+    }
+  }
+
+  async update(request: Request, response: Response){
+    const {id} = request.params;
+    const {name, type, isActive} = request.body;
+    const examRepository = getRepository(Exam);
+
+    try{
+      await examRepository.update(
+        id,
+        {
+          name, type, isActive,
+        }
+      )
+
+      const updated = await examRepository.findOne(id)
+
+      return response.status(200).json(updated)
+
+    }catch{
+      return response.status(400).json({error: "Failed update this exam!"});
     }
   }
 }

@@ -69,6 +69,28 @@ class LabsController {
       return response.status(400).json({erro: "Failed do delete this lab!"});
     }
   }
+
+  async update(request: Request, response: Response){
+    const {id} = request.params;
+    const {name, address, isActive, exameId} = request.body;
+    const labsRepository = getRepository(Labs);
+
+    try{
+      await labsRepository.update(
+        id,
+        {
+          name, address, isActive, exam_id: exameId
+        }
+      )
+
+      const updated = await labsRepository.findOne(id)
+
+      return response.status(200).json(updated)
+
+    }catch{
+      return response.status(400).json({error: "Failed update this lab!"});
+    }
+  }
 }
 
 export {LabsController}
