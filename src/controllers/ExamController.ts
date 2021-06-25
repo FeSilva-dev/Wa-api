@@ -17,8 +17,6 @@ class ExamContrller {
 
       await examRepository.save(exam);
 
-      // const examUsingFind = await examRepository.find({where: {id: exam.id}})
-
       return response.status(201).json(exam);
     } catch {
       return response
@@ -75,7 +73,7 @@ class ExamContrller {
       await examRepository.update(
         id,
         {
-          name, type, isActive,
+          name, type, isActive
         }
       )
 

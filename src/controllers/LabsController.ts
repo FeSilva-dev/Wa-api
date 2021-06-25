@@ -38,10 +38,13 @@ class LabsController {
   async show(request: Request, response: Response){
     const labsRepository = getRepository(Labs);
 
+    try{
       const all = await labsRepository.find()
 
       return response.status(200).json(all)
-      // return response.status(400).json({error: "Failed to get all labs!"})
+    }catch{
+      return response.status(400).json({error: "Failed to get all labs"})
+    }
   }
 
   async showOne(request: Request, response: Response){

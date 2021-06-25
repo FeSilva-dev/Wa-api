@@ -16,5 +16,6 @@ router.get("/exam/show", examController.show);
 router.get("/exam/show/:id", examController.showOne);
 router.post("/exam", examController.create);
 router.delete("/exam/:id", examController.delete);
+router.put("/exam/update/:id", examController.update);
 
 export { router }
