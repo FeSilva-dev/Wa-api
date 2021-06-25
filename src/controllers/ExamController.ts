@@ -34,9 +34,22 @@ class ExamContrller {
     try{
       const all = await examRepository.find();
 
-      return response.status(200).json(all)
+      return response.status(200).json(all);
     }catch{
       return response.status(400).json({error: "Failed to get all exams!"});
+    }
+  }
+
+  async showOne(request: Request, response: Response){
+    const {id} = request.params;
+    const examRepository = getRepository(Exam);
+
+    try{
+      const examSingle = await examRepository.find({where: {id}});
+
+      return response.status(200).json(examSingle);
+    }catch{
+      return response.status(400).json({error: "Failed to get exam!"});
     }
   }
 }

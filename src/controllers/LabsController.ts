@@ -44,6 +44,19 @@ class LabsController {
       return response.status(400).json({error: "Failed to get all labs!"})
     }
   }
+
+  async showOne(request: Request, response: Response){
+    const {id} = request.params;
+    const labsRepository = getRepository(Labs);
+
+    try{
+      const examSingle = await labsRepository.find({where: {id}});
+
+      return response.status(200).json(examSingle);
+    }catch{
+      return response.status(400).json({error: "Failed to get a lab!"});
+    }
+  }
 }
 
 export {LabsController}
